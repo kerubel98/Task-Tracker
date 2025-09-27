@@ -10,14 +10,14 @@ function rendertask(){
   const taskBox = document.getElementById('check-Box')
   let html = ''
   task.forEach(item=>{
-       html += `<div class="flex justify-between border-b w-full mb-4">
-          <div class="flex items-center p-1.5">
-            <input id="default-checkbox" type="checkbox" value=""
+       html += `<div class="flex justify-between border-b w-full mb-4 task-item" id="task-item">
+          <div class="flex items-center p-1.5 task-content" id="task-content">
+            <input id="default-checkbox" type="checkbox" value="" onchange="completTask(event)"
               class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
             <label for="default-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
               ${item}</label>
           </div>
-          <button class="">
+          <button class="" id="delete" onclick="deleltTask(event)">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
               class="size-6">
               <path stroke-linecap="round" stroke-linejoin="round"
@@ -26,7 +26,19 @@ function rendertask(){
           </button>
         </div>`;
   })
-  console.log(html)
   taskBox.innerHTML = html;
+}
+
+function deleltTask(event){
+  const deleteButton = event.target;
+  const taskItem = deleteButton.closest('.task-item'); // Get the whole task container
+  const taskContent = taskItem.querySelector('.task-content'); // Get the adjacent content
+  task.pop(taskContent.textContent)
+  rendertask()
+}
+function completTask(event){
+    const completed = event.target 
+    const taskItem = completed.closest('.task-item');
+    taskItem.style.textDecoration = 'line-through';
 }
 
